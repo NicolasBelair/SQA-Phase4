@@ -39,6 +39,16 @@ public class test {
 			e.printStackTrace();
 		}
 
+		// TODO:
+		// Read in the transactions.., store them in variables
+
+		// For each transaction, if account numbers are equal, then continue with logic
+		// When account numbers are equal check the transaction code.
+		// 01-withdrawal, 02-transfer, 03-paybill, 04-deposit, 05-create, 06-delete, 07-disable,08-changeplan
+		// add to the transaction count
+		
+		// Make two strings one for the new current accounts file, and one that has every account.
+		// write the new current accounts file
 		
 		
 }	
