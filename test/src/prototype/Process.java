@@ -10,15 +10,19 @@ public class Process {
         String account = tempTest.substring(24,29);
         Float value = Float.parseFloat(tempTest.substring(30,38));
 
+        //CHECK FOR STUDENT PLAN AND SUBSTRACT
+        if (plan.equals("ST")){
+            balance -= 0.05f;
+        }
+        else {
+            balance -= 0.10f;
+        }
+
         //CHECKING THE TRANSACTION
         switch(code){
             case "01":
                 System.out.println("Code 01 - Withdrawal");
-                if(plan.equals("ST")){
-                    balance = balance - 0.05;
-                }
-                balance = balance - 0.10;
-                balance = balance - transAmount;
+
                 if (balance - transAmount < 0){
                     System.out.println("ERROR: Balance has become negative");
                 }
@@ -29,12 +33,14 @@ public class Process {
 
             case "02":
                 System.out.println("Code 02 - Transfer");
+
                 if (balance - transAmount < 0){
                     System.out.println("ERROR: Balance has become negative");
                 }
                 if (numberOfTransactions > 9999){
                     System.out.println("ERROR: Transaction limit exceeded"); 
                 }
+
                 break;
 
             case "03":
