@@ -14,18 +14,45 @@ public class Process {
         switch(code){
             case "01":
                 System.out.println("Code 01 - Withdrawal");
+                if(plan.equals("ST")){
+                    balance = balance - 0.05;
+                }
+                balance = balance - 0.10;
+                balance = balance - transAmount;
+                if (balance - transAmount < 0){
+                    System.out.println("ERROR: Balance has become negative");
+                }
+                if (numberOfTransactions > 9999){
+                    System.out.println("ERROR: Transaction limit exceeded"); 
+                }
                 break;
 
             case "02":
                 System.out.println("Code 02 - Transfer");
+                if (balance - transAmount < 0){
+                    System.out.println("ERROR: Balance has become negative");
+                }
+                if (numberOfTransactions > 9999){
+                    System.out.println("ERROR: Transaction limit exceeded"); 
+                }
                 break;
 
             case "03":
                 System.out.println("Code 03 - Paybill");
+                if (balance - transAmount < 0){
+                    System.out.println("ERROR: Balance has become negative");
+                }
+                if (numberOfTransactions > 9999){
+                    System.out.println("ERROR: Transaction limit exceeded"); 
+                }
                 break;
 
             case "04":
                 System.out.println("Code 04 - Deposit");
+                
+                if (numberOfTransactions > 9999){
+                    System.out.println("ERROR: Transaction limit exceeded"); 
+                }
                 break;
 
             case "05":
