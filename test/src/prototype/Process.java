@@ -50,8 +50,14 @@ public class Process {
         }
     }
     public static void main(String[] args) {
-        String transactionFile;
-        String masterFile;
+
+        if (args.length < 2){
+            System.out.println("Requires 2 Arguement, master account file and merged transaction file (in order)");
+            System.exit(0);
+        }
+
+        String transactionFile = args[1];
+        String masterFile = args[0];
         //ReadTransaction transactions;
         //ReadMaster accounts;
         String accountContent;
