@@ -25,9 +25,15 @@ public class test {
 		DecimalFormat df = new DecimalFormat("00000.00");
 		DecimalFormat trn = new DecimalFormat("0000");
 		 
+		String masterPath = args[0];
+		String transactionPath = args[1];
+
+		File M_file = new File(masterPath);
+		File T_file = new File(transactionPath);
+
 		int count = 0;
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("C:/Users/jim/Documents/sqa/prototype/src/prototype/masterAccount.txt"));
+			BufferedReader br = new BufferedReader(new FileReader(M_file));
 			
 			while((line = br.readLine()) != null) {
 				accNum[count] = line.substring(0,5);
@@ -51,7 +57,7 @@ public class test {
 		count = 0;
 		System.out.println("");
 		try {
-			BufferedReader tr = new BufferedReader(new FileReader("C:/Users/jim/Documents/sqa/prototype/src/prototype/mergedTransaction.txt"));
+			BufferedReader tr = new BufferedReader(new FileReader(T_file));
 			
 			while((line = tr.readLine()) != null) {
 				cc[count] = line.substring(0,2);
