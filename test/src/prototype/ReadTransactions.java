@@ -47,7 +47,7 @@ public class ReadTransactions {
         for (int i=0; i<transactionsCombi.size(); i++) {
             String[] s = transactionsCombi.get(i);
             if(transactionsCombiTemp.isEmpty()) {
-                s.add()
+                //s.add()
             }
             
 
