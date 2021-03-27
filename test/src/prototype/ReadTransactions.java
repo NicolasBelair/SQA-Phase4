@@ -13,7 +13,7 @@ form where the change in balance applied on each account is summed up and the am
 is also counted for the purposes of applying transaction fees. This class is called by the Process class.*/
 
 public class ReadTransactions {
-    //array for collected data. [transaction code, account id, transaction amount]
+    //array for collected data. [transaction code, account id, transaction amount] initially, then becomes [account id, transaction sum, transaction count]
     private ArrayList<String[]> transactionsCombi = new ArrayList<String[]>();
     //array for collected data, raw
     private ArrayList<String> transactionsMerged = new ArrayList<String>();

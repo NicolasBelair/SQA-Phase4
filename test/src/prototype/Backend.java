@@ -1,25 +1,30 @@
-//package prototype;
+package prototype;
 import java.io.BufferedReader;
-import java.io.File;  // Import the File class
-import java.io.FileNotFoundException;  // Import this class to handle errors
+import java.io.File;  
+import java.io.FileNotFoundException; 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.*;
-import prototype.ReadMaster;
-import prototype.ReadTransactions;
+
+import javax.swing.text.AttributeSet.ColorAttribute;
+
+
+//AUTHORS: NICOLAS BELAIR, ANDREW ROMANOF, KEVIN CHANDRA, JIMKARAN ABBAS, DATE: 26/03/2021
+
+/*class that processes data from the ReadMaster and ReadTransaction classes and writes them to the new output files.*/
+
 public class Backend {
 
 	public static void main(String[] args) {
-		//Checking that we have two input file addresses
+		//check that we have two input file addresses
 		if (args.length != 2){
-            System.out.println("ERROR: Requires 2 Arguements, master account file and merged transaction file (in order)");
+            System.out.println("ERROR: Requires 2 Arguments, Master Acccount File (filepath) and Merged Transaction File (filepath) [in that order]");
             System.exit(0);
         }
 
 		//account variables
-		String line = "";
 		String[] accNum = new String[500];
 		String[] maName = new String[500];
 		String[] activity = new String[500];
@@ -33,16 +38,14 @@ public class Backend {
 		float[] mtAmount = new float[500];
 		DecimalFormat df = new DecimalFormat("00000.00");
 		DecimalFormat trn = new DecimalFormat("0000");
-		 
-		//Taking arguements into variable so that it can read the file
-		String masterPath = args[0];
-		String transactionPath = args[1];
+		
 
-		//Using the arguements string (filename) to find the file
+		//instantiate the input classes using the commandline inputted filepaths
 		ReadMaster RM = new ReadMaster();
-		RM.read(masterPath);
+		RM.read(args[0]);
 		ReadTransactions RT = new ReadTransactions();
-		RT.read(transactionPath);
+		RT.read(args[1]);
+		ArrayList<String[]> collatedTransactions = RT.getTransactionSums(); //format [account id, transaction sum, transaction count]
 
 
 		//split accounts into their components, store in String arrays
@@ -64,57 +67,32 @@ public class Backend {
 			mtAmount[i] = Float.parseFloat(RT.getTransactionsRaw().get(i).substring(30,38));
 	
 		}
-	
-		for (int i = 0; i < accNum.length; i++) {
-			for (int j = 0; j < mtAccountNumber.length; j++) {
-			
-				if(accNum[i] != null) {
+		
+		//run through transactions and match them to accounts to apply balance changes
+		for(int i=0; i<collatedTransactions.size(); i++) {
+			breakpoint1:
+			for(int j=0; j<accNum.length; j++) {
+				//when there's a match
+				if(collatedTransactions.get(i)[0]==accNum[j]) {
+					//update balance if there's a need to
+					if(Float.parseFloat(collatedTransactions.get(i)[1])!=0.0) {
+						balance[j]+=Float.parseFloat(collatedTransactions.get(i)[1]);
+					}
+					//save the number of transactions
+					trans[j]+=Integer.parseInt(collatedTransactions.get(i)[2]);
+					break breakpoint1;						
+				}
+			}
+		}// end for loop
 
+		//non-balance affecting transactions 
+		for (int i = 0; i < accNum.length; i++) {
+			//if transaction exists,
+			if(accNum[i] != null) {
+			//run through every account number
+				for (int j = 0; j < mtAccountNumber.length; j++) {
+					//if the transaction's number matches 
 					if (accNum[i].equals(mtAccountNumber[j])) {
-						if(cc[j].equals("01")) {
-							//01 - Withdrawal
-							if(maName[i].substring(0,4).equals(mtName[j].substring(0,4))){
-								balance[i] = balance[i] - mtAmount[j];
-								trans[i]+=1;
-							} else{
-								System.out.println("ERROR: Two bank accounts have the same account number 01");
-							}	
-						}
-						if(cc[j].equals("02")) {
-							//02 - Transfer
-							//Subtract the balance by the transaction, add balance to transferred account
-							if(maName[i].substring(0,4).equals(mtName[j].substring(0,4))){
-								balance[i] = balance[i] - mtAmount[j];
-								trans[i]+=1;
-								i++;
-								if(maName[i].substring(0,4).equals(mtName[j].substring(0,4))){
-									balance[i] = balance[i] + mtAmount[j];
-									trans[i]+=1;
-								}else {
-									System.out.println("ERROR: The account to transfer to doesn't exist");
-								}
-							}else{
-								System.out.println("ERROR: Two bank accounts have the same account number 02");
-							}	
-						}
-						if(cc[j].equals("03")) {
-							//03 - Paybill
-							if(maName[i].substring(0,4).equals(mtName[j].substring(0,4))){
-								balance[i] = balance[i] - mtAmount[j];
-								trans[i]+=1;
-							}	else{
-								System.out.println("ERROR: Two bank accounts have the same account number 03");
-							}	
-						}
-						if(cc[j].equals("04")) {
-							//04 - Deposit
-							if(maName[i].substring(0,4).equals(mtName[j].substring(0,4))){
-								balance[i] = balance[i] + mtAmount[j];
-								trans[i]+=1;
-							}	else{
-								System.out.println("ERROR: Two bank accounts have the same account number 04");
-							}	
-						}
 						if(cc[j].equals("05")) {
 							//05 - Create
 						}
@@ -133,64 +111,63 @@ public class Backend {
 					}
 				}
 			}
+		}// end for loop
+
+
+		//index counter
+		int count = 0;
+
+		//create a new file for the master account
+		File file = new File("NewMasterAccount.txt");
+		try {
+			file.createNewFile();
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
 
-	//Restart the loop
-	int count = 0;
-
-	//Create a new file for the master account
-	File file = new File("NewMasterAccount.txt");
-
-    try {
-		file.createNewFile();
-	} catch (IOException e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	}
-
-	//Write the content of the array into file
-	try {
-		FileWriter myWriter = new FileWriter(file);
-		while(true) {
-			myWriter.write(accNum[count] + " " + maName[count] + activity[count] + " "+ df.format(balance[count]) + " "+ trn.format(trans[count]));
-			myWriter.write("\n");
-			count++;
-			if(accNum[count] == null){
-				break;
+		//write the content of the array into file
+		try {
+			FileWriter myWriter = new FileWriter(file);
+			while(true) {
+				myWriter.write(accNum[count] + " " + maName[count] + activity[count] + " "+ df.format(balance[count]) + " "+ trn.format(trans[count]));
+				myWriter.write("\n");
+				count++;
+				if(accNum[count] == null){
+					break;
+				}
 			}
+			myWriter.close();
+		} catch (IOException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
 		}
-		myWriter.close();
-	  } catch (IOException e) {
-		System.out.println("An error occurred.");
-		e.printStackTrace();
-	  }
 
-	count = 0;
-	File file2 = new File("NewCurrentAccounts.txt");
-      
-    //Create a new file for the current account
-    try {
-		file2.createNewFile();
-	} catch (IOException e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	}
+		count = 0;
+		File file2 = new File("NewCurrentAccounts.txt");
+		
+		//create a new file for the current account
+		try {
+			file2.createNewFile();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 
-	//Write the content of the array into file
-	try {
-		FileWriter myWriter = new FileWriter(file2);
-		while(true) {
-			myWriter.write(accNum[count] + " " + maName[count] + activity[count] + " "+ df.format(balance[count]));
-			myWriter.write("\n");
-			count++;
-			if(accNum[count] == null){
-				break;
+		//write the content of the array into file
+		try {
+			FileWriter myWriter = new FileWriter(file2);
+			while(true) {
+				myWriter.write(accNum[count] + " " + maName[count] + activity[count] + " "+ df.format(balance[count]));
+				myWriter.write("\n");
+				count++;
+				if(accNum[count] == null){
+					break;
+				}
 			}
+			myWriter.close();
+		} catch (IOException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
 		}
-		myWriter.close();
-	  } catch (IOException e) {
-		System.out.println("An error occurred.");
-		e.printStackTrace();
-	  }
 
-	}}
+	}// end main()
+}// end class
