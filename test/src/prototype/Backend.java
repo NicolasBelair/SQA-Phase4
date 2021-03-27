@@ -103,7 +103,7 @@ public class Backend {
 								balance[i] = balance[i] - mtAmount[j];
 								trans[i]+=1;
 							} else{
-								System.out.println("ERROR: Two bank accounts have the same account number");
+								System.out.println("ERROR: Two bank accounts have the same account number 01");
 							}	
 						}
 						if(cc[j].equals("02")) {
@@ -112,8 +112,15 @@ public class Backend {
 							if(maName[i].substring(0,4).equals(mtName[j].substring(0,4))){
 								balance[i] = balance[i] - mtAmount[j];
 								trans[i]+=1;
+								i++;
+								if(maName[i].substring(0,4).equals(mtName[j].substring(0,4))){
+									balance[i] = balance[i] + mtAmount[j];
+									trans[i]+=1;
+								}else {
+									System.out.println("ERROR: The account to transfer to doesn't exist");
+								}
 							}else{
-								System.out.println("ERROR: Two bank accounts have the same account number");
+								System.out.println("ERROR: Two bank accounts have the same account number 02");
 							}	
 						}
 						if(cc[j].equals("03")) {
@@ -122,7 +129,7 @@ public class Backend {
 								balance[i] = balance[i] - mtAmount[j];
 								trans[i]+=1;
 							}	else{
-								System.out.println("ERROR: Two bank accounts have the same account number");
+								System.out.println("ERROR: Two bank accounts have the same account number 03");
 							}	
 						}
 						if(cc[j].equals("04")) {
@@ -131,16 +138,22 @@ public class Backend {
 								balance[i] = balance[i] + mtAmount[j];
 								trans[i]+=1;
 							}	else{
-								System.out.println("ERROR: Two bank accounts have the same account number");
+								System.out.println("ERROR: Two bank accounts have the same account number 04");
 							}	
 						}
+						if(cc[j].equals("05")) {
+							//05 - Create
+						}
 						if(cc[j].equals("06")) {
+							//06 - Delete
 							System.out.println("delete logic"); //Remove account from current accounts but save in to master accounts file
 						}
 						if(cc[j].equals("07")) {
+							//07 - Disable
 							activity[i] = "D"; //change activity from A to D
 						}
 						if(cc[j].equals("08")) {
+							//08 - Change plan
 							System.out.println("changeplan logic"); //student plan to non-student plan
 						}
 					}
@@ -160,6 +173,8 @@ public class Backend {
 		// TODO Auto-generated catch block
 		e1.printStackTrace();
 	}
+
+	//Write the content of the array into file
 	try {
 		FileWriter myWriter = new FileWriter(file);
 		while(true) {
@@ -186,6 +201,8 @@ public class Backend {
 		// TODO Auto-generated catch block
 		e1.printStackTrace();
 	}
+
+	//Write the content of the array into file
 	try {
 		FileWriter myWriter = new FileWriter(file2);
 		while(true) {

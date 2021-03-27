@@ -1,6 +1,8 @@
-Please compile and run test.java
+Please compile and run Backend.java
 It requires two parameters to run. 
 First parameter is the master account file,
 second parameter is the merged transaction file.
 
 The absolute path must be given for both files when entering the parameters. 
+
+We couldn't get the initial design in time, however the prototype works (the current Backend.java)
