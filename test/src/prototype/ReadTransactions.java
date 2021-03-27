@@ -40,7 +40,7 @@ public class ReadTransactions {
 
             }
             else {
-              // Handle the case where dir is not really a directory.
+                System.exit(0);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
