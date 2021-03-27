@@ -130,7 +130,7 @@ public class test {
 
 	// Perform the logic.. Write new files.
 	count = 0;
-	File file = new File("NewmasterAccount.txt");
+	File file = new File("NewMasterAccount.txt");
       
       // creates the file
     try {
@@ -154,7 +154,31 @@ public class test {
 		System.out.println("An error occurred.");
 		e.printStackTrace();
 	  }
-	
-{	
-}
+
+	count = 0;
+	File file2 = new File("NewCurrentAccounts.txt");
+      
+      // creates the file
+    try {
+		file2.createNewFile();
+	} catch (IOException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+	try {
+		FileWriter myWriter = new FileWriter(file2);
+		while(true) {
+			myWriter.write(accNum[count] + " " + maName[count] + activity[count] + " "+ df.format(balance[count]));
+			myWriter.write("\n");
+			count++;
+			if(accNum[count] == null){
+				break;
+			}
+		}
+		myWriter.close();
+	  } catch (IOException e) {
+		System.out.println("An error occurred.");
+		e.printStackTrace();
+	  }
+
 	}}
