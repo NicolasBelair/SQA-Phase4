@@ -1,0 +1,6 @@
+Please compile and run test.java
+It requires two parameters to run. 
+First parameter is the master account file,
+second parameter is the merged transaction file.
+
+The absolute path must be given for both files when entering the parameters. 
