@@ -10,7 +10,13 @@ import java.util.*;
 public class test {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		//Checking if it has 2 arguements
+		if (args.length < 2){
+            System.out.println("ERROR: Requires 2 Arguements, master account file and merged transaction file (in order)");
+            System.exit(0);
+        }
+
+		// All the variables within the account
 		String line = "";
 		String[] accNum = new String[500];
 		String[] maName = new String[500];
@@ -18,6 +24,7 @@ public class test {
 		float[] balance = new float[500];
 		int[] trans = new int[500];
 		
+		//All the variables within the transaction
 		String[] cc = new String[500];
 		String[] mtName = new String[500];
 		String[] mtAccountNumber = new String[500];
@@ -25,28 +32,32 @@ public class test {
 		DecimalFormat df = new DecimalFormat("00000.00");
 		DecimalFormat trn = new DecimalFormat("0000");
 		 
+		//Taking arguements into variable so that it can read the file
 		String masterPath = args[0];
 		String transactionPath = args[1];
 
+		//Using the arguements string (filename) to find the file
 		File M_file = new File(masterPath);
 		File T_file = new File(transactionPath);
 
+		//Just for loop
 		int count = 0;
+
 		try {
+			//Read the master file
 			BufferedReader br = new BufferedReader(new FileReader(M_file));
 			
 			while((line = br.readLine()) != null) {
+
+				//Splice the string and assign the value to each attribute from the master account
 				accNum[count] = line.substring(0,5);
 				maName[count] = line.substring(6, 27);
 				activity[count] = line.substring(27,28);
 				balance[count] = Float.parseFloat(line.substring(29,38));
 				trans[count] = Integer.parseInt(line.substring(38,42));
-				// System.out.print(accNum[count]);
-				// System.out.print(maName[count]);
-				// System.out.print(activity[count]);
-				// System.out.print(balance[count]);
-				// System.out.print(trans[count]);
+
 				count++;
+
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -54,22 +65,23 @@ public class test {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		//Reset the loop
 		count = 0;
 		System.out.println("");
+
 		try {
+			//Read the merged transaction file
 			BufferedReader tr = new BufferedReader(new FileReader(T_file));
 			
 			while((line = tr.readLine()) != null) {
+
+				//Splice the string and assign the value to each attribute from the transaction line
 				cc[count] = line.substring(0,2);
 				mtName[count] = line.substring(3, 22);
 				mtAccountNumber[count] = line.substring(24,29);
 				mtAmount[count] = Float.parseFloat(line.substring(30,38));
-				
-				// System.out.print(cc[count]);
-				// System.out.print(mtName[count]);
-				// System.out.print(mtAccountNumber[count]);
-				// System.out.print(mtAmount[count]);
-				// System.out.println("");
+
 				count++;
 			}
 		} catch (FileNotFoundException e) {
@@ -81,64 +93,67 @@ public class test {
 	
 		for (int i = 0; i < accNum.length; i++) {
 			for (int j = 0; j < mtAccountNumber.length; j++) {
-			//if (cc[j].equals("05") & cc[j] != null) {	
-			//	System.out.println("create logic");
-			//}
-			if(accNum[i] != null) {
-				if (accNum[i].equals(mtAccountNumber[j])) {
-					if(cc[j].equals("01")) {
+			
+				if(accNum[i] != null) {
+
+					if (accNum[i].equals(mtAccountNumber[j])) {
+						if(cc[j].equals("01")) {
+							//01 - Withdrawal
 							if(maName[i].substring(0,4).equals(mtName[j].substring(0,4))){
 								balance[i] = balance[i] - mtAmount[j];
 								trans[i]+=1;
 							} else{
 								System.out.println("ERROR: Two bank accounts have the same account number");
 							}	
-					}
-					if(cc[j].equals("02")) {
-					 //Subtract the balance by the transaction, add balance to transferred account
-					 if(maName[i].substring(0,4).equals(mtName[j].substring(0,4))){
-						balance[i] = balance[i] - mtAmount[j];
-						trans[i]+=1;
-					}	else{
-						System.out.println("ERROR: Two bank accounts have the same account number");
-					}	
-					}
-					if(cc[j].equals("03")) {
-						if(maName[i].substring(0,4).equals(mtName[j].substring(0,4))){
-							balance[i] = balance[i] - mtAmount[j];
-							trans[i]+=1;
-						}	else{
-							System.out.println("ERROR: Two bank accounts have the same account number");
-						}	
-					}
-					if(cc[j].equals("04")) {
-						if(maName[i].substring(0,4).equals(mtName[j].substring(0,4))){
-							balance[i] = balance[i] + mtAmount[j];
-							trans[i]+=1;
-						}	else{
-							System.out.println("ERROR: Two bank accounts have the same account number");
-						}	
-					}
-					if(cc[j].equals("06")) {
-						System.out.println("delete logic"); //Remove account from current accounts but save in to master accounts file
-					}
-					if(cc[j].equals("07")) {
-						activity[i] = "D"; //change activity from A to D
-					}
-					if(cc[j].equals("08")) {
-						System.out.println("changeplan logic"); //student plan to non-student plan
+						}
+						if(cc[j].equals("02")) {
+							//02 - Transfer
+							//Subtract the balance by the transaction, add balance to transferred account
+							if(maName[i].substring(0,4).equals(mtName[j].substring(0,4))){
+								balance[i] = balance[i] - mtAmount[j];
+								trans[i]+=1;
+							}else{
+								System.out.println("ERROR: Two bank accounts have the same account number");
+							}	
+						}
+						if(cc[j].equals("03")) {
+							//03 - Paybill
+							if(maName[i].substring(0,4).equals(mtName[j].substring(0,4))){
+								balance[i] = balance[i] - mtAmount[j];
+								trans[i]+=1;
+							}	else{
+								System.out.println("ERROR: Two bank accounts have the same account number");
+							}	
+						}
+						if(cc[j].equals("04")) {
+							//04 - Deposit
+							if(maName[i].substring(0,4).equals(mtName[j].substring(0,4))){
+								balance[i] = balance[i] + mtAmount[j];
+								trans[i]+=1;
+							}	else{
+								System.out.println("ERROR: Two bank accounts have the same account number");
+							}	
+						}
+						if(cc[j].equals("06")) {
+							System.out.println("delete logic"); //Remove account from current accounts but save in to master accounts file
+						}
+						if(cc[j].equals("07")) {
+							activity[i] = "D"; //change activity from A to D
+						}
+						if(cc[j].equals("08")) {
+							System.out.println("changeplan logic"); //student plan to non-student plan
+						}
 					}
 				}
 			}
-			
 		}
-	}
 
-	// Perform the logic.. Write new files.
+	//Restart the loop
 	count = 0;
+
+	//Create a new file for the master account
 	File file = new File("NewMasterAccount.txt");
-      
-      // creates the file
+
     try {
 		file.createNewFile();
 	} catch (IOException e1) {
@@ -164,7 +179,7 @@ public class test {
 	count = 0;
 	File file2 = new File("NewCurrentAccounts.txt");
       
-      // creates the file
+    //Create a new file for the current account
     try {
 		file2.createNewFile();
 	} catch (IOException e1) {
