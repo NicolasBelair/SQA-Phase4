@@ -11,54 +11,61 @@ public class Process {
         Float value = Float.parseFloat(tempTest.substring(30,38));
 
         //CHECK FOR STUDENT PLAN AND SUBSTRACT
+        /*
         if (plan.equals("ST")){
             balance -= 0.05f;
         }
         else {
             balance -= 0.10f;
         }
+        */
 
         //CHECKING THE TRANSACTION
         switch(code){
             case "01":
                 System.out.println("Code 01 - Withdrawal");
-
+                /*
                 if (balance - transAmount < 0){
                     System.out.println("ERROR: Balance has become negative");
                 }
                 if (numberOfTransactions > 9999){
                     System.out.println("ERROR: Transaction limit exceeded"); 
                 }
+                */
                 break;
 
             case "02":
                 System.out.println("Code 02 - Transfer");
-
+                /*
                 if (balance - transAmount < 0){
                     System.out.println("ERROR: Balance has become negative");
                 }
                 if (numberOfTransactions > 9999){
                     System.out.println("ERROR: Transaction limit exceeded"); 
                 }
-
+                */
                 break;
 
             case "03":
                 System.out.println("Code 03 - Paybill");
+                /*
                 if (balance - transAmount < 0){
                     System.out.println("ERROR: Balance has become negative");
                 }
                 if (numberOfTransactions > 9999){
                     System.out.println("ERROR: Transaction limit exceeded"); 
                 }
+                */
                 break;
 
             case "04":
                 System.out.println("Code 04 - Deposit");
                 
+                /*
                 if (numberOfTransactions > 9999){
                     System.out.println("ERROR: Transaction limit exceeded"); 
                 }
+                */
                 break;
 
             case "05":
@@ -85,17 +92,20 @@ public class Process {
     public static void main(String[] args) {
 
         if (args.length < 2){
-            System.out.println("Requires 2 Arguement, master account file and merged transaction file (in order)");
+            System.out.println("Requires 2 Arguements, master account file and merged transaction file (in order)");
             System.exit(0);
         }
 
         String transactionFile = args[1];
         String masterFile = args[0];
-        //ReadTransaction transactions;
+        ReadTransactions transactions = new ReadTransactions();
         //ReadMaster accounts;
         String accountContent;
         String masterContent;
 
         processData();
+
+        transactions.read(transactionFile);
+        System.out.println(transactions.transactionsMerged);
     }
 }
