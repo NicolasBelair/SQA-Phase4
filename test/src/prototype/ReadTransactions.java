@@ -44,7 +44,7 @@ public class ReadTransactions {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        ArrayList<String[]> transactionsCombiTemp = new ArrayList<String[]>();
 
 
 
