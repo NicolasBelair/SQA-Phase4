@@ -7,16 +7,18 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.*;
+import prototype.ReadMaster;
+import prototype.ReadTransactions;
 public class Backend {
 
 	public static void main(String[] args) {
-		//Checking if it has 2 arguements
-		if (args.length < 2){
+		//Checking that we have two input file addresses
+		if (args.length != 2){
             System.out.println("ERROR: Requires 2 Arguements, master account file and merged transaction file (in order)");
             System.exit(0);
         }
 
-		// All the variables within the account
+		//account variables
 		String line = "";
 		String[] accNum = new String[500];
 		String[] maName = new String[500];
@@ -24,7 +26,7 @@ public class Backend {
 		float[] balance = new float[500];
 		int[] trans = new int[500];
 		
-		//All the variables within the transaction
+		//transaction variables
 		String[] cc = new String[500];
 		String[] mtName = new String[500];
 		String[] mtAccountNumber = new String[500];
@@ -37,58 +39,30 @@ public class Backend {
 		String transactionPath = args[1];
 
 		//Using the arguements string (filename) to find the file
-		File M_file = new File(masterPath);
-		File T_file = new File(transactionPath);
+		ReadMaster RM = new ReadMaster();
+		RM.read(masterPath);
+		ReadTransactions RT = new ReadTransactions();
+		RT.read(transactionPath);
 
-		//Just for loop
-		int count = 0;
 
-		try {
-			//Read the master file
-			BufferedReader br = new BufferedReader(new FileReader(M_file));
-			
-			while((line = br.readLine()) != null) {
-
-				//Splice the string and assign the value to each attribute from the master account
-				accNum[count] = line.substring(0,5);
-				maName[count] = line.substring(6, 27);
-				activity[count] = line.substring(27,28);
-				balance[count] = Float.parseFloat(line.substring(29,38));
-				trans[count] = Integer.parseInt(line.substring(38,42));
-
-				count++;
-
-			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		//split accounts into their components, store in String arrays
+		for(int i=0; i<RM.getAccounts().size(); i++) {
+			//Splice the string and assign the value to each attribute from the master account
+			accNum[i] = RM.getAccounts().get(i).substring(0,5);
+			maName[i] = RM.getAccounts().get(i).substring(6, 27);
+			activity[i] = RM.getAccounts().get(i).substring(27,28);
+			balance[i] = Float.parseFloat(RM.getAccounts().get(i).substring(29,38));
+			trans[i] = Integer.parseInt(RM.getAccounts().get(i).substring(38,42));
 		}
-
-		//Reset the loop
-		count = 0;
-		System.out.println("");
-
-		try {
-			//Read the merged transaction file
-			BufferedReader tr = new BufferedReader(new FileReader(T_file));
-			
-			while((line = tr.readLine()) != null) {
-
-				//Splice the string and assign the value to each attribute from the transaction line
-				cc[count] = line.substring(0,2);
-				mtName[count] = line.substring(3, 22);
-				mtAccountNumber[count] = line.substring(24,29);
-				mtAmount[count] = Float.parseFloat(line.substring(30,38));
-
-				count++;
-			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		
+		//split transactions into their components, store in String arrays
+		for(int i=0; i<RT.getTransactionsRaw().size(); i++) {
+			//Splice the string and assign the value to each attribute from the transaction line
+			cc[i] = RT.getTransactionsRaw().get(i).substring(0,2);
+			mtName[i] = RT.getTransactionsRaw().get(i).substring(3, 22);
+			mtAccountNumber[i] = RT.getTransactionsRaw().get(i).substring(24,29);
+			mtAmount[i] = Float.parseFloat(RT.getTransactionsRaw().get(i).substring(30,38));
+	
 		}
 	
 		for (int i = 0; i < accNum.length; i++) {
@@ -162,7 +136,7 @@ public class Backend {
 		}
 
 	//Restart the loop
-	count = 0;
+	int count = 0;
 
 	//Create a new file for the master account
 	File file = new File("NewMasterAccount.txt");
