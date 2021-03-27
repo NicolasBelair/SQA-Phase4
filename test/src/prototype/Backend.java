@@ -7,7 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.*;
-public class test {
+public class Backend {
 
 	public static void main(String[] args) {
 		//Checking if it has 2 arguements
