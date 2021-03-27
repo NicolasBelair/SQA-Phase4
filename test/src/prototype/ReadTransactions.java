@@ -19,14 +19,15 @@ public class ReadTransactions {
     private ArrayList<String> transactionsMerged = new ArrayList<String>();
 
 
-    //method that gets the sum total of all transactions on each account, and the number of transactions on each account
+    /*method that reads in all the transactions and stores them in ArrayList "transactionsMerged"
+    this method also combines all the transactions per-account to an overall change in balance
+    and number of transactions performed in ArrayList "transactionsCombi"*/
     public void read(String address) {
         try {
-            //load directory of transaction files
+            //load file
             File file = new File(address);
-            //load list of all files within the directory (individual transaction files)
 
-            //if files exist in the directory:
+            //if file exists
             if (file != null) {
                 //read lines from file
                 BufferedReader tr = new BufferedReader(new FileReader(file));
@@ -99,11 +100,11 @@ public class ReadTransactions {
 
     //getter methods
 
-    ArrayList<String[]> getTransactionSums() {
+    public ArrayList<String[]> getTransactionSums() {
         return this.transactionsCombi;
     }
 
-    ArrayList<String> getTransactionsRaw() {
+    public ArrayList<String> getTransactionsRaw() {
         return this.transactionsMerged;
     }
 
