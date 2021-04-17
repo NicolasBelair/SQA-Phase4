@@ -18,5 +18,5 @@
 {
     #run backend with given datapaths
 javac Backend.java
-java Backend masterAccount.txt transactions.etf
+java Backend masterAccount.txt Daily_Transactions.etf
 }
