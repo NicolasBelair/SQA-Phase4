@@ -1,4 +1,1 @@
-00001 John Bank            A 00500.00
-00002 Free Mann            A 00420.00
-00003 Cayde Six            D 00010.00
-00004 Adrian Shephard      A 01000.00
+null nullnull 00000.00
