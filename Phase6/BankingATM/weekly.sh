@@ -16,6 +16,7 @@
          done
 }
 
+#Concatenate the outputs and remove end of file lines that start with the 00 transaction.
 {   
     find . -type f -name 'out_*.etf' -exec cat {} + >> Monday_Transactions.etf
     sed -i '/^00/d' Monday_Transactions.etf

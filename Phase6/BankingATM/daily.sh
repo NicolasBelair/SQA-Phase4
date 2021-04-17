@@ -9,10 +9,10 @@
          done
 }
 
-{   rm transactions.etf
-    find . -type f -name 'out_*.etf' -exec cat {} + >> transactions.etf
-    sed -i '/^00/d' transactions.etf
-    cat transactions.etf
+{   rm Daily_Transactions.etf
+    find . -type f -name 'out_*.etf' -exec cat {} + >> Daily_Transactions.etf
+    sed -i '/^00/d' Daily_Transactions.etf
+    cat Daily_Transactions.etf
 }
 
 {

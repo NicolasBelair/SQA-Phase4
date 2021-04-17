@@ -1,0 +1,9 @@
+00001 John Doe             A 00905.00 2227
+00002 James Doe            A 01999.00 2146
+00003 Jane Doe             A 06000.00 4160
+00004 John Smith           A 00000.00 2346
+00005 Richard Smith        A 60000.00 8815
+00006 Emily Clarkson       A 32460.00 2004
+00007 Joe Wagger           A 05658.00 0139
+00008 Rudy Patootie        A 81684.00 0035
+00001 John Bank            A 01055.00 0035
