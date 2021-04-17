@@ -14,8 +14,7 @@ This class is called by the Process class.*/
 public class ReadMaster {
     //array for collected data, raw
     private ArrayList<String> accounts = new ArrayList<String>();
-
-
+	
     //method that reads in all the accounts and stores them in ArrayList "accounts"
     public void read(String address) {
         try {
