@@ -1,0 +1,2 @@
+Unzip the programs folder, and paste the daily/weekly scripts inside. 
+Run them using the bash command on windows, or do chmod +x and run them on linux.
