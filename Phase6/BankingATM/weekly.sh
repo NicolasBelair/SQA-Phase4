@@ -46,7 +46,6 @@ java Backend masterAccount.txt Monday_Transactions.etf
 
 {
     #run backend with given datapaths
-javac Backend.java
 java Backend NewMasterAccount.txt Tuesday_Transactions.etf
 }
 
@@ -68,7 +67,6 @@ java Backend NewMasterAccount.txt Tuesday_Transactions.etf
 
 {
     #run backend with given datapaths
-javac Backend.java
 java Backend NewMasterAccount.txt Wednesday_Transactions.etf
 }
 
@@ -90,7 +88,6 @@ java Backend NewMasterAccount.txt Wednesday_Transactions.etf
 
 {
     #run backend with given datapaths
-javac Backend.java
 java Backend NewMasterAccount.txt Thursday_Transactions.etf
 }
 
@@ -112,6 +109,5 @@ java Backend NewMasterAccount.txt Thursday_Transactions.etf
 
 {
     #run backend with given datapaths
-javac Backend.java
 java Backend NewMasterAccount.txt Friday_Transactions.etf
 }
