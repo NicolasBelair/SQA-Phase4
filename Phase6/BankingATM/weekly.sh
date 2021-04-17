@@ -7,7 +7,7 @@
 
 
 #MONDAY
-{   rm -r weekly/output/*
+{   rm -r weekly/monday/output/*
     counter=1 #counter variable for incrementing the actual output files
        for c in weekly/monday/input/*.inp ; do # loop through each file in the directory
         echo "Running Monday Transactions"
@@ -29,7 +29,7 @@ java Backend masterAccount.txt Monday_Transactions.etf
 }
 
 #TUESDAY
-{  
+{  rm -r weekly/tuesday/output/*
     counter=1 #counter variable for incrementing the actual output files
        for c in weekly/tuesday/input/*.inp ; do # loop through each file in the directory
         echo "Running Tuesday Transactions"
@@ -50,7 +50,7 @@ java Backend NewMasterAccount.txt Tuesday_Transactions.etf
 }
 
 #Wednesday
-{  
+{  rm -r weekly/wednesday/output/*
     counter=1 #counter variable for incrementing the actual output files
        for c in weekly/wednesday/input/*.inp ; do # loop through each file in the directory
         echo "Running Wednesday Transactions"
@@ -71,7 +71,7 @@ java Backend NewMasterAccount.txt Wednesday_Transactions.etf
 }
 
 #Thursday
-{  
+{  rm -r weekly/thursday/output/*
     counter=1 #counter variable for incrementing the actual output files
        for c in weekly/thursday/input/*.inp ; do # loop through each file in the directory
         echo "Running Thursday Transactions"
@@ -92,7 +92,7 @@ java Backend NewMasterAccount.txt Thursday_Transactions.etf
 }
 
 #Friday
-{  
+{  rm -r weekly/friday/output/*
     counter=1 #counter variable for incrementing the actual output files
        for c in weekly/friday/input/*.inp ; do # loop through each file in the directory
         echo "Running Friday Transactions"
